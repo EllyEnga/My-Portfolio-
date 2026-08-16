@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#090b12">
+<meta name="color-scheme" content="dark">
+<title>Elly Enga — Developer • Innovator • Builder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+:root{
+  --bg:#080a10;--panel:#0e121b;--panel2:#141a26;--panel3:#1b2331;
+  --text:#f4f7fb;--muted:#8e99ac;--accent:#6d8cff;--accent2:#8c7cff;
+  --green:#55e08a;--pink:#ff6480;--line:rgba(255,255,255,.09);
+  --header-h:70px;--footer-h:108px;--radius:22px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg)}
+body{font-family:Inter,system-ui,sans-serif;color:var(--text)}
+button,input,textarea{font:inherit}
+button{cursor:pointer}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+::-webkit-scrollbar{width:7px}
+::-webkit-scrollbar-thumb{background:#30394a;border-radius:20px}
+::-webkit-scrollbar-track{background:transparent}
+
+.app{width:100%;min-width:0;height:100dvh;min-height:100dvh;display:grid;grid-template-rows:var(--header-h) 1fr var(--footer-h);overflow:hidden;background:
+radial-gradient(circle at 50% 15%,rgba(109,140,255,.12),transparent 30%),var(--bg)}
+
+.topbar,.bottombar{position:relative;z-index:50;background:rgba(8,10,16,.92);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-color:var(--line)}
+.topbar{border-bottom:1px solid var(--line)}
+.bottombar{border-top:1px solid var(--line)}
+.bar-inner{height:100%;width:min(1180px,calc(100% - 28px));min-width:0;margin:auto;display:flex;align-items:center;justify-content:space-between}
+.brand{font-size:1.08rem;font-weight:800;letter-spacing:-.04em}.brand span{color:var(--accent)}
+.top-actions{display:flex;align-items:center;gap:8px}
+.icon-btn{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:var(--panel2);color:var(--muted);display:grid;place-items:center;transition:.2s}
+.icon-btn:hover{color:#fff;border-color:rgba(109,140,255,.5);transform:translateY(-1px)}
+.desktop-nav{display:flex;align-items:center;gap:22px;margin-left:auto;margin-right:20px}
+.desktop-nav a{font-size:.8rem;color:var(--muted)}.desktop-nav a:hover{color:#fff}
+.mobile-menu{display:none;position:absolute;top:calc(var(--header-h) - 1px);left:0;right:0;background:rgba(8,10,16,.98);border-bottom:1px solid var(--line);padding:12px}
+.mobile-menu a{display:block;padding:13px;border-radius:11px;color:var(--muted)}.mobile-menu a:hover{background:var(--panel2);color:#fff}
+
+.viewport{min-height:0;overflow:hidden;position:relative}
+.screen{height:100%;min-width:0;overflow-y:auto;overflow-x:hidden;scroll-behavior:smooth;overscroll-behavior:contain;overscroll-behavior-x:none;-webkit-overflow-scrolling:touch;scrollbar-gutter:stable}
+.screen-inner{width:min(1000px,calc(100% - 28px));max-width:100%;margin:0 auto;padding:38px 0 50px}
+
+.hero{text-align:center;min-height:540px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 0}
+.avatar{width:126px;height:126px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(145deg,#171f30,#0f141f);border:2px solid rgba(109,140,255,.85);box-shadow:0 0 0 9px rgba(109,140,255,.04),0 25px 80px rgba(0,0,0,.4);font-size:3.3rem;font-weight:800;color:var(--accent);margin-bottom:24px;overflow:hidden}
+.avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.status{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:rgba(85,224,138,.07);border:1px solid rgba(85,224,138,.25);color:#83eca9;font-size:.75rem;font-weight:700;margin-bottom:20px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 12px var(--green)}
+.hero h1{font-size:clamp(3rem,9vw,6.5rem);line-height:.95;letter-spacing:-.07em;margin:0;font-weight:800}
+.hero h1 span{color:var(--accent)}
+.hero-sub{font-size:clamp(1.05rem,2.8vw,1.55rem);color:var(--muted);margin:20px 0 12px}
+.hero-copy{max-width:680px;color:var(--muted);font-size:.94rem;line-height:1.8;margin:0 auto 25px}
+.actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.btn{border:0;border-radius:13px;padding:13px 19px;display:inline-flex;align-items:center;justify-content:center;gap:9px;font-weight:800;transition:.2s}
+.btn-primary{background:var(--accent);color:#fff;box-shadow:0 14px 35px rgba(109,140,255,.2)}
+.btn-primary:hover{transform:translateY(-2px)}
+.btn-secondary{background:var(--panel2);border:1px solid var(--line);color:#fff}
+.btn-secondary:hover{background:var(--panel3);transform:translateY(-2px)}
+.meta{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;color:var(--muted);font-size:.75rem;margin-top:25px}
+.meta i{color:var(--accent);margin-right:5px}
+
+.section{padding:58px 0;scroll-margin-top:15px}
+.section-head{text-align:center;margin-bottom:24px}
+.eyebrow{display:block;color:var(--accent);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;font-weight:800;margin-bottom:8px}
+.section-head h2{font-size:clamp(1.8rem,4vw,2.8rem);letter-spacing:-.05em;margin:0}
+.section-head p{color:var(--muted);font-size:.85rem;max-width:620px;margin:10px auto 0}
+.card{background:linear-gradient(145deg,rgba(255,255,255,.035),rgba(255,255,255,.012));border:1px solid var(--line);border-radius:var(--radius);box-shadow:0 25px 70px rgba(0,0,0,.18)}
+
+.message-wall{padding:22px}
+.wall-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:15px}
+.wall-top h3{margin:0;font-size:1rem}
+.live{display:flex;align-items:center;gap:7px;color:#83eca9;font-size:.7rem;font-weight:800}
+.messages{display:grid;gap:11px}
+.message{min-width:0;display:grid;grid-template-columns:46px 1fr;gap:12px;padding:15px;border-radius:17px;background:rgba(255,255,255,.025);border:1px solid var(--line)}
+.msg-avatar{width:46px;height:46px;border-radius:50%;overflow:hidden;background:linear-gradient(145deg,var(--accent),var(--accent2));display:grid;place-items:center;font-weight:800;flex-shrink:0}
+.msg-avatar img{width:100%;height:100%;object-fit:cover}
+.msg-main{min-width:0}.msg-head{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.msg-name{font-size:.82rem;font-weight:800}.msg-time{font-size:.62rem;color:var(--muted);white-space:nowrap}
+.msg-text{overflow-wrap:anywhere;word-break:break-word;font-size:.78rem;color:var(--muted);margin-top:4px;white-space:pre-wrap}
+.msg-actions{display:flex;gap:7px;margin-top:9px;flex-wrap:wrap;align-items:center}
+.like,.edit-msg{border:1px solid var(--line);background:var(--panel2);color:var(--muted);border-radius:999px;padding:5px 10px;font-size:.7rem;font-weight:800;display:inline-flex;align-items:center;gap:6px;transition:.2s}
+.like:hover,.edit-msg:hover{color:#fff;border-color:rgba(109,140,255,.5)}
+.like.liked{color:var(--pink);border-color:rgba(255,100,128,.35);background:rgba(255,100,128,.07)}
+.empty{padding:34px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:17px;font-size:.8rem}
+.empty i{font-size:1.5rem;color:var(--accent);display:block;margin-bottom:8px}
+
+.work-screen{display:none}
+.work-screen.active{display:block}
+.landing-screen.hidden{display:none}
+.work-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.work-card{padding:24px}
+.work-card.wide{grid-column:1/-1}
+.work-icon{width:45px;height:45px;border-radius:13px;background:rgba(109,140,255,.1);display:grid;place-items:center;color:var(--accent);margin-bottom:15px}
+.work-card h3{margin:0 0 7px;font-size:1.1rem}.work-card p{color:var(--muted);font-size:.8rem;margin:0;line-height:1.7}
+.tech{display:flex;gap:7px;flex-wrap:wrap;margin-top:15px}.chip{font-size:.65rem;color:var(--muted);padding:6px 9px;border-radius:999px;background:var(--panel2);border:1px solid var(--line)}
+.project-link{display:inline-flex;gap:7px;color:var(--accent);font-size:.75rem;font-weight:800;margin-top:15px}
+.close-work{margin-bottom:18px}
+
+.guest-wrap{margin-top:16px;padding:22px}
+.guest-wrap h3{margin:0 0 5px}.guest-wrap p{color:var(--muted);font-size:.76rem;margin:0 0 18px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.field{margin-bottom:12px}.field.full{grid-column:1/-1}
+label{display:block;font-size:.68rem;font-weight:800;margin-bottom:6px}
+input,textarea{width:100%;border:1px solid var(--line);background:var(--panel2);color:#fff;outline:0;border-radius:12px;padding:11px 12px}
+input:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(109,140,255,.08)}
+textarea{min-height:105px;resize:vertical}
+.char-counter{display:flex;justify-content:space-between;font-size:.65rem;color:var(--muted);margin-top:4px}
+.file-note{font-size:.62rem;color:var(--muted);margin-top:5px}
+.preview{display:none;align-items:center;gap:9px;margin-top:9px}.preview img{width:52px;height:52px;border-radius:10px;object-fit:cover}.preview span{font-size:.65rem;color:var(--muted)}
+.form-bottom{display:flex;align-items:center;justify-content:space-between;gap:10px}.form-status{font-size:.68rem;min-height:20px}.success{color:#83eca9}.error{color:#ff879a}
+
+.footer-inner{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:8px 0}
+.socials{display:flex;align-items:center;justify-content:center;gap:12px}.social{width:42px;height:42px;border-radius:11px;display:grid;place-items:center;color:var(--muted);background:var(--panel2);border:1px solid var(--line);transition:.2s}.social:hover{color:#fff;border-color:rgba(109,140,255,.5);transform:translateY(-1px)}
+.copyright{font-size:.68rem;line-height:1.45;color:var(--muted);text-align:center;max-width:100%;white-space:normal}.heart{color:#ff5575;font-size:1em}
+
+.sheet-backdrop{display:none;position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.62);backdrop-filter:blur(5px)}
+.sheet{position:fixed;z-index:110;left:50%;bottom:0;transform:translate(-50%,105%);width:min(620px,100%);background:#0d121b;border:1px solid var(--line);border-bottom:0;border-radius:24px 24px 0 0;padding:22px;transition:transform .28s ease;box-shadow:0 -25px 80px rgba(0,0,0,.5)}
+.sheet.open{transform:translate(-50%,0)}
+.sheet-backdrop.open{display:block}
+.sheet-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}.sheet-head h3{margin:0}.close{width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:var(--panel2);color:var(--muted)}
+.sheet .form-grid{max-height:70dvh;overflow:auto;padding-right:2px}
+.sheet .btn{width:100%}
+
+.toast-container{position:fixed;top:80px;right:20px;z-index:999;display:flex;flex-direction:column;gap:10px;max-width:340px;width:100%}
+.toast{background:var(--panel2);border:1px solid var(--line);border-left:4px solid var(--accent);padding:14px 18px;border-radius:12px;color:var(--text);font-size:.85rem;box-shadow:0 20px 50px rgba(0,0,0,.5);animation:slideIn .3s ease}
+.toast.success{border-left-color:#55e08a}.toast.error{border-left-color:#ff6480}
+@keyframes slideIn{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
+
+@media(max-width:760px){
+  :root{--header-h:62px;--footer-h:112px}
+  .desktop-nav{display:none}.mobile-menu{display:none}.mobile-menu.open{display:block}
+  .screen-inner{padding-top:20px;width:min(100% - 18px,1000px)}
+  .hero{min-height:calc(100dvh - var(--header-h) - var(--footer-h) - 25px);padding:25px 0}
+  .avatar{width:104px;height:104px;font-size:2.7rem;margin-bottom:19px}
+  .hero h1{font-size:clamp(3rem,16vw,5rem)}
+  .hero-copy{font-size:.82rem;line-height:1.7}
+  .meta{gap:12px;font-size:.67rem}
+  .section{padding:38px 0}
+  .work-grid,.form-grid{grid-template-columns:1fr}
+  .work-card.wide,.field.full{grid-column:auto}
+  .copyright{max-width:190px}
+  .toast-container{top:70px;right:10px;left:10px;max-width:100%}
+}
+@media(min-width:761px){}
+@media(max-width:420px){
+  .hero h1{font-size:3.05rem}.status{font-size:.68rem}
+  .hero-sub{font-size:1rem}.actions .btn{width:100%;max-width:250px}
+  .meta{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+  .message{min-width:0;grid-template-columns:40px 1fr}.msg-avatar{width:40px;height:40px}
+  .msg-head{align-items:flex-start}.msg-time{font-size:.56rem}
+  .footer-inner{width:calc(100% - 18px)}
+  .social{width:34px;height:34px}
+}
+</style>
+</head>
+
+<body>
+<noscript><div style="padding:16px;background:#2a1015;color:#fff;text-align:center">JavaScript is required for the live visitor wall and message form.</div></noscript>
+<div class="app">
+
+
+
+<header class="topbar">
+  <div class="bar-inner">
+    <a class="brand" href="#" id="homeBrand">ELLY<span> ENGA.</span></a>
+    
+     <nav class="desktop-nav">
+      <a href="#guestbook" data-landing-link>Messages</a>
+      <a href="#" id="workNav">My Work</a>
+  
+  
+  
+  
+    </nav>
+    
+    
+    
+   
+    <div class="top-actions">
+      <button class="icon-btn" id="menuBtn" aria-label="Menu"><i class="fas fa-bars"></i></button>
+    </div>
+    
+    
+    
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#guestbook" data-landing-link>Messages</a>
+    <a href="#" id="mobileWork">My Work</a>
+  </div>
+</header>
+
+<main class="viewport">
+  <div class="screen" id="screen">
+
+    <div class="screen-inner landing-screen" id="landingScreen">
+      <section class="hero" id="home">
+        <div class="avatar">
+          <!-- ⬇️ REPLACE src WITH YOUR OWN PHOTO URL ⬇️ -->
+          <img id="profilePhoto" src="images/Elly Enga.png" alt="Elly Enga" onerror="this.style.display='none';this.parentElement.textContent='E'" />
+          
+          
+        </div>
+        <div class="status"><span class="dot"></span> Building from Mansa, Zambia</div>
+        <h1>Elly <span>Enga</span></h1>
+        <div class="hero-sub">Developer · Learner· Builder</div>
+        <p class="hero-copy">I design and build digital products that solve real-world problems — from education technology and AI-powered tools to innovative communication systems.</p>
+        <div class="actions">
+          <button class="btn btn-primary" id="viewWork"><i class="fas fa-rocket"></i> View My Work</button>
+        </div>
+        <div class="meta">
+          <span><i class="fas fa-location-dot"></i>Zambia</span>
+          <span><i class="fas fa-code"></i>Web · AI · Systems</span>
+          <span><i class="fas fa-lightbulb"></i>Independent Developer</span>
+        </div>
+      </section>
+
+      <section class="section" id="guestbook">
+        <div class="section-head">
+          <span class="eyebrow">Visitor Wall</span>
+          <h2>Messages from visitors</h2>
+          <p>Ideas 💡 and request from visitors. New messages appear automatically here for everyone.</p>
+        </div>
+        <div class="card message-wall">
+          <div class="wall-top">
+            <h3>Latest messages</h3>
+            <span class="live"><span class="dot"></span> LIVE</span>
+          </div>
+          <div class="messages" id="landingMessages">
+            <div class="empty"><i class="fas fa-spinner fa-spin"></i>Loading messages...</div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <div class="screen-inner work-screen" id="workScreen">
+      <button class="btn btn-secondary close-work" id="backHome"><i class="fas fa-arrow-left"></i> Back to Landing Page</button>
+      <div class="section-head" style="text-align:left">
+        <span class="eyebrow">Selected Work</span>
+        <h2>Things I've built.</h2>
+        <p>Explore the projects, experiments and systems behind the work.</p>
+      </div>
+      <div class="work-grid">
+        
+        
+        
+        
+<article class="card work-card">
+  <div class="work-icon"><i class="fas fa-graduation-cap"></i></div>
+  <h3>Eduverse — Zambia's Learning Platform</h3>
+  <p>
+    <strong>Zambia's premier learning ecosystem</strong> connecting learners, teachers, 
+    and schools in one powerful platform. Features <strong>structured courses</strong>, 
+    <strong>auto-graded quizzes</strong>, <strong>assignments</strong>, <strong>live chat</strong>, 
+    <strong>results tracking</strong>, <strong>certificates</strong>, and a 
+    <strong>teacher application system</strong>. Built for the Zambian curriculum 
+    with 10+ courses, 100+ learners, and 50+ teachers already on board.
+  </p>
+  <div class="tech">
+    <span class="chip">EdTech</span>
+    <span class="chip">Firebase</span>
+    <span class="chip">LMS</span>
+    <span class="chip">Zambia</span>
+    <span class="chip">Monetization</span>
+  </div>
+  <a class="project-link" href="https://ellyenga.github.io/Eduverse/" target="_blank" rel="noopener">Explore Eduverse <i class="fas fa-arrow-right"></i></a>
+</article>
+        
+        
+        
+        
+        <article class="card work-card">
+  <div class="work-icon"><i class="fas fa-bluetooth-b"></i></div>
+  <h3>BlueTalk — Mesh Communication</h3>
+  <p>
+    An <strong>offline-first</strong>, <strong>peer-to-peer</strong> mesh communication 
+    network designed for environments with limited or no internet connectivity. 
+    Features <strong>auto-mesh</strong> discovery, <strong>voice/video calls</strong>, 
+    <strong>file sharing</strong>, and a shared encrypted vault. Built to work 
+    anywhere — even without cell towers or Wi-Fi.
+  </p>
+  <div class="tech">
+    <span class="chip">JavaScript</span>
+    <span class="chip">WebRTC</span>
+    <span class="chip">P2P Mesh</span>
+    <span class="chip">Offline-first</span>
+    <span class="chip">Encrypted</span>
+  </div>
+  <a class="project-link" href="https://blutoothchat.netlify.app/" target="_blank" rel="noopener">Explore BlueTalk <i class="fas fa-arrow-right"></i></a>
+</article>
+
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+<article class="card work-card">
+  <div class="work-icon"><i class="fas fa-briefcase"></i></div>
+  <h3>Kleemp Tech — Professional Web Design</h3>
+  <p>
+    Custom, fast, and affordable websites built from scratch for Zambian businesses. 
+    Three flexible packages starting from just K500:
+    <strong>Basic</strong> (1-page, 
+    mobile responsive, contact form),
+    <strong>Pro</strong> (5-page, map, basic SEO), 
+    and 
+    <strong>Premium</strong> (10+ pages, e-commerce, full SEO, 30-day support). 
+    Every site includes 7‑day delivery, 24/7 support, and no hidden fees.
+  </p>
+  <div class="tech">
+    <span class="chip">Web Design</span>
+    <span class="chip">E-Commerce</span>
+    <span class="chip">SEO</span>
+    <span class="chip">Responsive</span>
+  </div>
+  <a class="project-link" href="https://ellyenga.github.io/EllyB/" target="_blank" rel="noopener">Visit Kleemp Tech<i class="fas fa-arrow-right"></i></a>
+</article>
+        
+        
+        
+        
+        
+        
+        <article class="card work-card">
+  <div class="work-icon"><i class="fas fa-user-astronaut"></i></div>
+  <h3>Elly Enga — Personal Website</h3>
+  <p>
+    My digital home on the web — <strong>built from scratch in one day</strong>.
+    Features a <strong>trainable AI chatbot</strong>, a <strong>50‑question quiz</strong>
+    about me, a <strong>data dashboard</strong>, and a <strong>blog</strong>.
+    A complete personal brand hub sharing my journey, education, career, and
+    vision for the future.
+  </p>
+  <div class="tech">
+    <span class="chip">HTML</span>
+    <span class="chip">CSS</span>
+    <span class="chip">JavaScript</span>
+    <span class="chip">AI Chatbot</span>
+    <span class="chip">Data Viz</span>
+  </div>
+  <a class="project-link" href="https://ellyenga.netlify.app/" target="_blank" rel="noopener">Visit Elly Enga <i class="fas fa-arrow-right"></i></a>
+</article>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+<article class="card work-card">
+  <div class="work-icon"><i class="fas fa-landmark"></i></div>
+  <h3>Misakalala Hub — Government Admin</h3>
+  <p>
+    A comprehensive coordination dashboard built for local government administration. 
+    Tracks <strong>27 team members</strong>, <strong>9 coordinators</strong>, 
+    <strong>9 polling stations</strong>, and <strong>18 monitors</strong> in real-time. 
+    Designed to streamline communication, manage roles, and oversee administrative workflows 
+    across the Misakalala Ward.
+  </p>
+  <div class="tech">
+    <span class="chip">Admin Dashboard</span>
+    <span class="chip">Government</span>
+    <span class="chip">Coordination</span>
+    <span class="chip">HTML</span>
+    <span class="chip">CSS</span>
+    <span class="chip">JavaScript</span>
+  </div>
+  <a class="project-link" href="https://misakalala.netlify.app/" target="_blank" rel="noopener">Explore Hub <i class="fas fa-arrow-right"></i></a>
+</article>
+        
+        
+        
+        
+        
+        
+       <article class="card work-card">
+  <div class="work-icon"><i class="fas fa-robot"></i></div>
+  <h3>AI Experiments — Chatbots & Automation</h3>
+  <p>
+    Practical AI integrations built for real-world use. Includes a 
+    <strong>trainable chatbot</strong> (powering my personal website), 
+    <strong>sentiment analysis</strong> for feedback, 
+    <strong>automated content generation</strong>, and 
+    <strong>NLP tools</strong> for education. All built with vanilla JavaScript 
+    and open-source AI models — no external APIs required.
+  </p>
+  <div class="tech">
+    <span class="chip">AI</span>
+    <span class="chip">NLP</span>
+    <span class="chip">Chatbot</span>
+    <span class="chip">JavaScript</span>
+    <span class="chip">Automation</span>
+  </div>
+</article>
+        
+        
+        
+<article class="card work-card wide">
+  <div class="work-icon"><i class="fas fa-lightbulb"></i></div>
+  <h3>My mission: Build what Zambia needs.</h3>
+  <p style="font-size: 0.95rem; line-height: 1.8; color: var(--text);">
+    I believe in <strong>technology that works where it matters most</strong> — 
+    not just in well-connected cities, but in communities with limited resources, 
+    patchy internet, and real challenges. That's why I build:
+  </p>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0 10px;">
+    <div style="background: var(--panel2); padding: 12px 16px; border-radius: 12px; border-left: 3px solid var(--accent);">
+      <strong style="color: var(--accent);">📚 Education</strong>
+      <p style="margin: 4px 0 0; font-size: 0.8rem; color: var(--muted);">Eduverse — making learning accessible to every Zambian student.</p>
+    </div>
+    <div style="background: var(--panel2); padding: 12px 16px; border-radius: 12px; border-left: 3px solid #55e08a;">
+      <strong style="color: #55e08a;">📡 Connectivity</strong>
+      <p style="margin: 4px 0 0; font-size: 0.8rem; color: var(--muted);">BlueTalk — offline-first, peer-to-peer mesh for areas without internet.</p>
+    </div>
+    <div style="background: var(--panel2); padding: 12px 16px; border-radius: 12px; border-left: 3px solid #ff6480;">
+      <strong style="color: #ff6480;">🏛️ Community</strong>
+      <p style="margin: 4px 0 0; font-size: 0.8rem; color: var(--muted);">Misakalala Hub — giving local government the tools to coordinate effectively.</p>
+    </div>
+    <div style="background: var(--panel2); padding: 12px 16px; border-radius: 12px; border-left: 3px solid #fbbf24;">
+      <strong style="color: #fbbf24;">💼 Empowerment</strong>
+      <p style="margin: 4px 0 0; font-size: 0.8rem; color: var(--muted);">Kleemp Tech— helping Zambian businesses build their digital presence.</p>
+    </div>
+  </div>
+  <p style="font-size: 0.9rem; color: var(--muted); margin-top: 6px;">
+    <i class="fas fa-quote-left" style="color: var(--accent); margin-right: 6px;"></i>
+    I build because I believe the next generation of Zambian innovators deserves 
+    tools that work — without needing Silicon Valley infrastructure. 
+    <span style="color: var(--text); font-weight: 600;">That's my why.</span>
+  </p>
+  <div class="tech" style="margin-top: 12px;">
+    <span class="chip">🌍 Digital Equality</span>
+    <span class="chip">📚 Education Access</span>
+    <span class="chip">🔗 Offline-First</span>
+    <span class="chip">💡 Grassroots Innovation</span>
+    <span class="chip">🇿🇲 Built for Zambia</span>
+  </div>
+</article>
+
+
+
+
+
+        
+      </div>
+      <div class="section" style="padding-bottom:10px">
+        <div class="section-head">
+          <span class="eyebrow">Your Voice</span>
+          <h2>Leave your Idea or Request.</h2>
+          <p>Your message will also appear on the landing page.</p>
+        </div>
+        <button class="btn btn-primary" style="margin:auto;display:flex" id="leaveMessageWork"><i class="fas fa-pen"></i> Leave a Message</button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="bottombar">
+  <div class="bar-inner footer-inner">
+    <div class="socials">
+      <a class="social" href="https://www.tiktok.com/@kleempwrld300" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+      
+      
+      
+<a class="social" href="https://www.facebook.com/profile.php?id=61587424176999&name=xhp_nt__fb__action__open_user" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+      
+      
+      <a class="social" href="https://wa.me/260769635654" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+      <a class="social" href="https://www.linkedin.com/in/elly-chisheta-1502203a8/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+      <a class="social" href="mailto:ellychisheta@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
+    </div>
+    <div class="copyright">© 2026 Elly Enga · Built with <span class="heart">♥</span> in Zambia by Kleemp Tech· "More than you can imagine."</div>
+  </div>
+</footer>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<div class="sheet-backdrop" id="sheetBackdrop"></div>
+<div class="sheet" id="messageSheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+  <div class="sheet-head">
+    <h3 id="sheetTitle">Leave a message</h3>
+    <button class="close" id="closeSheet" aria-label="Close"><i class="fas fa-xmark"></i></button>
+  </div>
+  <div class="form-grid">
+    <div class="field">
+      <label for="visitorName">Name</label>
+      <input id="visitorName" maxlength="60" autocomplete="name" placeholder="Your name" required>
+    </div>
+    <div class="field">
+      <label for="visitorContact">Contact <span style="color:var(--muted)">(optional)</span></label>
+      <input id="visitorContact" maxlength="120" autocomplete="email" placeholder="Email or phone">
+    </div>
+    <div class="field full">
+      <label for="visitorMessage">Message</label>
+      <textarea id="visitorMessage" maxlength="500" placeholder="Write something..." required></textarea>
+      <div class="char-counter"><span>Max 500 characters</span><span id="charCount">0 / 500</span></div>
+    </div>
+    <div class="field full">
+      <label for="visitorPhoto">Photo <span style="color:var(--muted)">(optional)</span></label>
+      <input id="visitorPhoto" type="file" accept="image/*">
+      <div class="file-note">Photo is resized to max 200px and compressed to JPEG 60% before saving.</div>
+      <div class="preview" id="imagePreview"><img id="previewImage" alt="Selected photo"><span id="previewText">Photo ready.</span></div>
+    </div>
+  </div>
+  <div class="form-bottom">
+    <div class="form-status" id="formStatus" aria-live="polite"></div>
+    <button class="btn btn-primary" id="submitMessage"><i class="fas fa-paper-plane"></i> Publish</button>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-analytics.js";
+import {
+  getFirestore, collection, addDoc, onSnapshot, query, orderBy,
+  serverTimestamp, limit, doc, updateDoc, increment
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+const firebaseConfig={
+  apiKey:"AIzaSyDWobHFR8OeyMt06dRtcSO8taAZjl7wnwE",
+  authDomain:"portfolio-40931.firebaseapp.com",
+  projectId:"portfolio-40931",
+  storageBucket:"portfolio-40931.firebasestorage.app",
+  messagingSenderId:"414113228979",
+  appId:"1:414113228979:web:ea60f9b6bc635d763528c6",
+  measurementId:"G-8JR0PJW6D5"
+};
+
+const app=initializeApp(firebaseConfig);
+try{getAnalytics(app)}catch(e){console.warn("Analytics unavailable",e)}
+const db=getFirestore(app);
+
+// ─── DOM refs ───
+const screen=document.getElementById("screen");
+const landing=document.getElementById("landingScreen");
+const work=document.getElementById("workScreen");
+const menu=document.getElementById("mobileMenu");
+const menuBtn=document.getElementById("menuBtn");
+const toastContainer=document.getElementById("toastContainer");
+
+// ─── Navigation ───
+function showWork(){
+  landing.classList.add("hidden");
+  work.classList.add("active");
+  screen.scrollTop=0;
+  menu.classList.remove("open");
+}
+function showLanding(){
+  work.classList.remove("active");
+  landing.classList.remove("hidden");
+  screen.scrollTop=0;
+  menu.classList.remove("open");
+}
+document.getElementById("viewWork").onclick=showWork;
+document.getElementById("workNav").onclick=e=>{e.preventDefault();showWork()};
+document.getElementById("mobileWork").onclick=e=>{e.preventDefault();showWork()};
+document.getElementById("backHome").onclick=showLanding;
+document.getElementById("homeBrand").onclick=e=>{e.preventDefault();showLanding()};
+menuBtn.onclick=()=>menu.classList.toggle("open");
+
+document.querySelectorAll("[data-landing-link]").forEach(a=>{
+  a.addEventListener("click",e=>{
+    e.preventDefault();
+    showLanding();
+    const id=a.getAttribute("href");
+    requestAnimationFrame(()=>document.querySelector(id)?.scrollIntoView({behavior:"smooth",block:"start"}));
+  });
+});
+
+// ─── Toast system ───
+function showToast(message, type="success"){
+  const toast=document.createElement("div");
+  toast.className=`toast ${type}`;
+  toast.textContent=message;
+  toastContainer.appendChild(toast);
+  setTimeout(()=>toast.remove(), 3500);
+}
+
+// ─── Sheet logic ───
+const backdrop=document.getElementById("sheetBackdrop");
+const sheet=document.getElementById("messageSheet");
+const sheetTitle=document.getElementById("sheetTitle");
+let editingId=null;
+
+function openSheet(editData=null){
+  backdrop.classList.add("open");
+  sheet.classList.add("open");
+  document.body.style.overflow="hidden";
+  if(editData){
+    sheetTitle.textContent="Edit your message";
+    document.getElementById("visitorName").value=editData.name||"";
+    document.getElementById("visitorMessage").value=editData.message||"";
+    document.getElementById("visitorContact").value=editData.contact||"";
+    document.getElementById("submitMessage").innerHTML='<i class="fas fa-pen"></i> Update';
+    editingId=editData.id;
+    document.getElementById("visitorPhoto").disabled=true;
+    document.getElementById("visitorPhoto").parentElement.style.opacity="0.5";
+  }else{
+    sheetTitle.textContent="Leave a message";
+    document.getElementById("visitorName").value="";
+    document.getElementById("visitorMessage").value="";
+    document.getElementById("visitorContact").value="";
+    document.getElementById("visitorPhoto").value="";
+    document.getElementById("visitorPhoto").disabled=false;
+    document.getElementById("visitorPhoto").parentElement.style.opacity="1";
+    document.getElementById("submitMessage").innerHTML='<i class="fas fa-paper-plane"></i> Publish';
+    editingId=null;
+    document.getElementById("imagePreview").style.display="none";
+    document.getElementById("previewImage").removeAttribute("src");
+    document.getElementById("charCount").textContent="0 / 500";
+  }
+  document.getElementById("formStatus").textContent="";
+  document.getElementById("formStatus").className="form-status";
+  setTimeout(()=>document.getElementById("visitorName").focus(),180);
+}
+function closeSheet(){
+  backdrop.classList.remove("open");
+  sheet.classList.remove("open");
+  document.body.style.overflow="";
+  editingId=null;
+  document.getElementById("visitorPhoto").disabled=false;
+  document.getElementById("visitorPhoto").parentElement.style.opacity="1";
+}
+document.getElementById("leaveMessageWork").onclick=()=>openSheet(null);
+document.getElementById("closeSheet").onclick=closeSheet;
+backdrop.onclick=closeSheet;
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeSheet()});
+
+// ─── Form refs ───
+const nameInput=document.getElementById("visitorName");
+const contactInput=document.getElementById("visitorContact");
+const messageInput=document.getElementById("visitorMessage");
+const photoInput=document.getElementById("visitorPhoto");
+const submit=document.getElementById("submitMessage");
+const status=document.getElementById("formStatus");
+const preview=document.getElementById("imagePreview");
+const previewImage=document.getElementById("previewImage");
+const previewText=document.getElementById("previewText");
+const charCount=document.getElementById("charCount");
+
+messageInput.addEventListener("input",()=>{
+  charCount.textContent=`${messageInput.value.length} / 500`;
+});
+
+function setStatus(text,type=""){status.textContent=text;status.className="form-status "+type}
+
+// ─── Image compression ───
+const MAX_DIM=200;
+const QUALITY=.60;
+const MAX_BASE64=150000;
+
+async function compressImage(file){
+  if(!file) return null;
+  if(!(file instanceof File)) throw new Error("Please select a photo from your device.");
+  const type=(file.type||"").toLowerCase();
+  const name=(file.name||"").toLowerCase();
+  if(!type.startsWith("image/") && !/\.(jpe?g|png|webp|gif|bmp)$/i.test(name)){
+    throw new Error("Please select a normal photo (JPG, PNG or WebP).");
+  }
+  if(file.size>25*1024*1024) throw new Error("That photo is too large. Please choose a photo under 25 MB.");
+
+  let source=null;
+  let objectUrl=null;
+  const release=()=>{
+    if(objectUrl){try{URL.revokeObjectURL(objectUrl)}catch(_){};objectUrl=null;}
+    if(source && typeof source.close==="function"){try{source.close()}catch(_){}}
+  };
+
+  try{
+    if(typeof createImageBitmap==="function"){
+      try{source=await createImageBitmap(file,{imageOrientation:"from-image"});}catch(_){}
+    }
+    if(!source){
+      objectUrl=URL.createObjectURL(file);
+      source=await new Promise((resolve,reject)=>{
+        const img=new Image();
+        img.onload=()=>resolve(img);
+        img.onerror=()=>reject(new Error("object-url-decode-failed"));
+        img.src=objectUrl;
+      });
+    }
+  }catch(_){
+    release();source=null;
+    try{
+      const dataUrl=await new Promise((resolve,reject)=>{
+        const reader=new FileReader();
+        reader.onload=()=>resolve(reader.result);
+        reader.onerror=()=>reject(new Error("file-read-failed"));
+        reader.readAsDataURL(file);
+      });
+      source=await new Promise((resolve,reject)=>{
+        const img=new Image();
+        img.onload=()=>resolve(img);
+        img.onerror=()=>reject(new Error("data-url-decode-failed"));
+        img.src=dataUrl;
+      });
+    }catch(_){throw new Error("Your current browser cannot access this photo. Please use Chrome and select a JPG or PNG from Gallery.");}
+  }
+
+  try{
+    const sw=source.naturalWidth||source.width;
+    const sh=source.naturalHeight||source.height;
+    if(!sw||!sh) throw new Error("The photo has no readable dimensions.");
+    const scale=Math.min(1,MAX_DIM/Math.max(sw,sh));
+    const w=Math.max(1,Math.round(sw*scale));
+    const h=Math.max(1,Math.round(sh*scale));
+    const canvas=document.createElement("canvas");
+    canvas.width=w;canvas.height=h;
+    const ctx=canvas.getContext("2d",{alpha:false});
+    if(!ctx) throw new Error("Your browser does not support image processing.");
+    ctx.fillStyle="#ffffff";ctx.fillRect(0,0,w,h);
+    ctx.drawImage(source,0,0,w,h);
+    let quality=QUALITY, data="";
+    for(let attempt=0;attempt<5;attempt++){
+      data=canvas.toDataURL("image/jpeg",quality);
+      if(data.length<=MAX_BASE64) break;
+      quality=Math.max(.25,quality-.10);
+    }
+    if(!data||data.length<100) throw new Error("The browser could not create the compressed photo.");
+    if(data.length>MAX_BASE64) throw new Error("That photo is still too large after compression. Please choose another photo.");
+    return data;
+  }finally{release();}
+}
+
+photoInput.addEventListener("change",async()=>{
+  preview.style.display="none";
+  if(!photoInput.files[0])return;
+  try{
+    const data=await compressImage(photoInput.files[0]);
+    previewImage.src=data;previewText.textContent="Compressed and ready.";
+    preview.style.display="flex";
+  }catch(e){
+    preview.style.display="none";previewImage.removeAttribute("src");
+    setStatus(e.message||"Could not process photo.","error");
+  }
+});
+
+// ─── Ownership & Like tracking ───
+function getMyMessages(){return JSON.parse(localStorage.getItem("elly_my_messages")||"[]");}
+function addMyMessage(id){const arr=getMyMessages();if(!arr.includes(id)){arr.push(id);localStorage.setItem("elly_my_messages",JSON.stringify(arr));}}
+function isMyMessage(id){return getMyMessages().includes(id);}
+function likeKey(id){return "elly_liked_"+id}
+function getLiked(id){return localStorage.getItem(likeKey(id))==="1"}
+function setLiked(id,val){if(val){localStorage.setItem(likeKey(id),"1")}else{localStorage.removeItem(likeKey(id))}}
+
+// ─── Render message (FIXED LIKE BUTTON) ───
+function renderMessage(data, id){
+  const article=document.createElement("article");article.className="message";
+  const avatar=document.createElement("div");avatar.className="msg-avatar";
+  if(data.photo){
+    const img=document.createElement("img");img.src=data.photo;img.alt="Visitor photo";img.loading="lazy";avatar.appendChild(img);
+  }else avatar.textContent=(data.name||"?").charAt(0).toUpperCase();
+
+  const main=document.createElement("div");main.className="msg-main";
+  const head=document.createElement("div");head.className="msg-head";
+  const name=document.createElement("div");name.className="msg-name";name.textContent=data.name||"Anonymous";
+  const time=document.createElement("div");time.className="msg-time";
+  try{time.textContent=data.createdAt?.toDate().toLocaleString(undefined,{month:"short",day:"numeric",year:"numeric",hour:"2-digit",minute:"2-digit"})||"Just now"}catch{time.textContent="Recently"}
+  head.append(name,time);
+
+  const text=document.createElement("div");text.className="msg-text";text.textContent=data.message||"";
+  // ⬇️ BIG PHOTO REMOVED — only the avatar stays
+  main.append(head, text);
+
+  const actions=document.createElement("div");actions.className="msg-actions";
+
+  // ─── LIKE BUTTON (FIXED) ───
+  const like=document.createElement("button");like.className="like";like.type="button";
+  const likedState=getLiked(id);
+  if(likedState)like.classList.add("liked");
+  const likesCount=Number(data.likes||0);
+  like.innerHTML=`<i class="${likedState?"fas":"far"} fa-heart"></i><span>${likesCount}</span>`;
+  like.title=likedState?"Unlike":"Like";
+
+  like.onclick=async()=>{
+    if(like.disabled) return;
+    like.disabled=true;
+
+    try{
+      const currentLiked=getLiked(id);
+      const delta=currentLiked ? -1 : 1;
+      const newCount=Math.max(0, likesCount + delta);
+
+      // ✅ UPDATE localStorage & UI IMMEDIATELY (optimistic)
+      setLiked(id, !currentLiked);
+      like.classList.toggle("liked", !currentLiked);
+      like.querySelector("i").className = !currentLiked ? "fas fa-heart" : "far fa-heart";
+      like.querySelector("span").textContent = newCount;
+      like.title = !currentLiked ? "Unlike" : "Like";
+
+      // ✅ UPDATE FIRESTORE (will sync via listener)
+      await updateDoc(doc(db, "visitorMessages", id), {
+        likes: increment(delta)
+      });
+
+    }catch(e){
+      console.error(e);
+      showToast("Could not update like. Try again.", "error");
+    }finally{
+      like.disabled=false;
+    }
+  };
+
+  actions.appendChild(like);
+
+  // ─── EDIT BUTTON (owner only) ───
+  if(isMyMessage(id)){
+    const editBtn=document.createElement("button");editBtn.className="edit-msg";editBtn.type="button";
+    editBtn.innerHTML='<i class="fas fa-pen"></i> Edit';
+    editBtn.onclick=()=>{
+      openSheet({id, name:data.name||"", message:data.message||"", contact:data.contact||""});
+    };
+    actions.appendChild(editBtn);
+  }
+
+  main.appendChild(actions);
+  article.append(avatar,main);
+  return article;
+}
+
+// ─── Firestore listeners ───
+const messagesQuery=query(collection(db,"visitorMessages"),orderBy("createdAt","desc"),limit(100));
+
+onSnapshot(messagesQuery,async (snap)=>{
+  const list=document.getElementById("landingMessages");
+  list.innerHTML="";
+  if(snap.empty){
+    list.innerHTML="<div class='empty'><i class='fas fa-comments'></i><strong>No messages yet.</strong><br>Be the first person to leave one.</div>";
+    return;
+  }
+  snap.forEach(docSnap=>{
+    const data=docSnap.data();
+    const id=docSnap.id;
+    list.appendChild(renderMessage(data,id));
+  });
+},err=>{
+  console.error("Firestore:",err);
+  document.getElementById("landingMessages").innerHTML="<div class='empty'><i class='fas fa-triangle-exclamation'></i><strong>Messages unavailable.</strong><br>Check your Firestore rules and refresh.</div>";
+});
+
+// ─── Submit / Update message ───
+submit.onclick=async()=>{
+  const name=nameInput.value.trim();
+  const contact=contactInput.value.trim();
+  const message=messageInput.value.trim();
+  if(!name){setStatus("Please enter your name.","error");nameInput.focus();return}
+  if(!message){setStatus("Please write a message.","error");messageInput.focus();return}
+  if(name.length>60||message.length>500||contact.length>120){setStatus("One of your fields is too long.","error");return}
+
+  if(!editingId){
+    const lastPost=localStorage.getItem("elly_last_post");
+    if(lastPost && Date.now()-parseInt(lastPost)<30000){
+      setStatus("Please wait 30 seconds before posting again.","error");
+      return;
+    }
+  }
+
+  submit.disabled=true;
+  submit.innerHTML='<i class="fas fa-spinner fa-spin"></i> Processing...';
+  setStatus("");
+
+  try{
+    let photo=null;
+    if(photoInput.files[0] && !editingId){
+      setStatus("Compressing photo...","");
+      photo=await compressImage(photoInput.files[0]);
+    }
+
+    if(editingId){
+      await updateDoc(doc(db,"visitorMessages",editingId),{
+        name:name.substring(0,60),
+        contact:contact.substring(0,120),
+        message:message.substring(0,500)
+      });
+      showToast("Message updated!","success");
+    }else{
+      const docRef=await addDoc(collection(db,"visitorMessages"),{
+        name:name.substring(0,60),
+        contact:contact.substring(0,120),
+        message:message.substring(0,500),
+        photo:photo||null,
+        likes:0,
+        createdAt:serverTimestamp()
+      });
+      addMyMessage(docRef.id);
+      localStorage.setItem("elly_last_post",Date.now().toString());
+      showToast("Message published!","success");
+    }
+
+    nameInput.value="";contactInput.value="";messageInput.value="";photoInput.value="";
+    preview.style.display="none";previewImage.removeAttribute("src");
+    setStatus("","");
+    closeSheet();
+    showLanding();
+    setTimeout(()=>document.querySelector("#guestbook")?.scrollIntoView({behavior:"smooth",block:"start"}), 300);
+
+  }catch(e){
+    console.error(e);
+    setStatus(e.message||"Could not publish. Please try again.","error");
+    showToast(e.message||"Error publishing message","error");
+  }finally{
+    submit.disabled=false;
+    submit.innerHTML=editingId ? '<i class="fas fa-pen"></i> Update' : '<i class="fas fa-paper-plane"></i> Publish';
+  }
+};
+
+console.log("%c🔥 Elly Enga · Perfect Portfolio", "font-size:20px; font-weight:700; color:#6c8cff;");
+console.log("%cLike bug fixed! Optimistic updates prevent double clicks.", "font-size:14px; color:#9aa4b8;");
+</script>
+</body>
+</html>
