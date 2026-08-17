@@ -603,6 +603,67 @@ document.querySelectorAll("[data-landing-link]").forEach(a=>{
   });
 });
 
+
+
+
+
+
+function certificateMarkup(c) {
+  // ... existing code ...
+  const verificationUrl = `https://ellyenga.github.io/Eduverse/verify.html?id=${encodeURIComponent(c.certificateId)}`;
+  // Add QR code container
+  return `
+    <div class="certificate-shell">
+      <div class="certificate ${theme.frame}" style="${vars}">
+        <!-- ... existing certificate HTML ... -->
+        <div class="cert-id">
+          Certificate ID: ${esc(c.certificateId)}
+          <br>
+          <div id="qrCodeContainer" style="margin-top: 12px; display: flex; justify-content: center;"></div>
+          <div style="font-size: 10px; color: #98a2b3; margin-top: 4px;">
+            Scan to verify
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      // Generate QR code after the element exists
+      setTimeout(() => {
+        const container = document.getElementById('qrCodeContainer');
+        if (container && typeof QRCode !== 'undefined') {
+          new QRCode(container, {
+            text: '${verificationUrl}',
+            width: 80,
+            height: 80,
+            colorDark: '#0b1f3a',
+            colorLight: '#ffffff',
+            correctLevel: QRCode.CorrectLevel.H
+          });
+        }
+      }, 100);
+    <\/script>
+  `;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
 // ─── Toast system ───
 function showToast(message, type="success"){
   const toast=document.createElement("div");
