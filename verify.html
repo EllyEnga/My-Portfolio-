@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Eduverse — Certificate Verification</title>
+  <style>
+    body {
+      margin: 0;
+      background: #0a0f1c;
+      color: #e8edf7;
+      font-family: Inter, system-ui, sans-serif;
+      display: grid;
+      place-items: center;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 560px;
+      width: 90%;
+      padding: 32px;
+      background: #131b2c;
+      border-radius: 16px;
+      border: 1px solid #243255;
+      text-align: center;
+    }
+    h1 { font-size: 28px; margin: 0 0 8px; }
+    .sub { color: #96a3c0; margin-bottom: 24px; }
+    input {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid #2c3a5c;
+      background: #182238;
+      color: #e8edf7;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+    input:focus {
+      border-color: #3f6ad8;
+      outline: none;
+      box-shadow: 0 0 0 3px #152142;
+    }
+    button {
+      margin-top: 12px;
+      padding: 12px 28px;
+      border: 0;
+      border-radius: 10px;
+      background: #1769ff;
+      color: #fff;
+      font-weight: 700;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    button:hover { background: #0d55d9; transform: translateY(-1px); }
+    .result {
+      margin-top: 24px;
+      padding: 20px;
+      border-radius: 12px;
+      border: 1px solid #2c3a5c;
+      text-align: left;
+      display: none;
+    }
+    .result.valid {
+      border-color: #5fd095;
+      background: #0f2a1c;
+    }
+    .result.invalid {
+      border-color: #ff6480;
+      background: #3a1414;
+    }
+    .result h3 { margin: 0 0 8px; }
+    .result p { margin: 4px 0; color: #b7c3dd; font-size: 14px; }
+    .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .badge.valid { background: #0f2a1c; color: #5fd095; }
+    .badge.invalid { background: #3a1414; color: #ff6480; }
+    .footer { margin-top: 24px; font-size: 13px; color: #96a3c0; }
+    .footer a { color: #8fb4ff; text-decoration: none; }
+    .footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>🎓 Eduverse</h1>
+  <p class="sub">Certificate Verification</p>
+  <p style="color: #96a3c0; font-size: 14px; margin-bottom: 20px;">
+    Enter the certificate ID shown on the certificate to verify its authenticity.
+  </p>
+
+  <input id="certInput" type="text" placeholder="e.g. EDV-2025-X7K9M2" />
+  <button id="verifyBtn">Verify Certificate</button>
+
+  <div id="result" class="result">
+    <h3 id="resultTitle">Certificate Verified</h3>
+    <p id="resultName"><strong>Issued to:</strong> <span id="name"></span></p>
+    <p id="resultCourse"><strong>Course:</strong> <span id="course"></span></p>
+    <p id="resultSubject"><strong>Subject:</strong> <span id="subject"></span></p>
+    <p id="resultInstructor"><strong>Issued by:</strong> <span id="instructor"></span></p>
+    <p id="resultDate"><strong>Issued on:</strong> <span id="date"></span></p>
+    <p id="resultType"><strong>Certificate Type:</strong> <span id="type"></span></p>
+    <span id="statusBadge" class="badge">✓ Verified</span>
+  </div>
+
+  <div class="footer">
+    <a href="https://ellyenga.github.io/Eduverse/">Return to Eduverse</a>
+  </div>
+</div>
+
+<script type="importmap">
+{
+  "imports": {
+    "firebase": "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js",
+    "firebase/firestore": "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js"
+  }
+}
+</script>
+
+<script type="module">
+  import { initializeApp } from "firebase";
+  import { getFirestore, collection, query, where, getDocs } from "firebase/firestore";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCIAqJzburU5KJHpjsdy2kFxwKfyIl1Id8",
+    authDomain: "testing-4caa6.firebaseapp.com",
+    projectId: "testing-4caa6",
+    storageBucket: "testing-4caa6.firebasestorage.app",
+    messagingSenderId: "1084262277204",
+    appId: "1:1084262277204:web:56c31e2551578dc87f4dc1",
+    measurementId: "G-Q2NPYJTQQ3"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  const input = document.getElementById('certInput');
+  const btn = document.getElementById('verifyBtn');
+  const result = document.getElementById('result');
+  const statusBadge = document.getElementById('statusBadge');
+
+  async function verifyCertificate() {
+    const id = input.value.trim();
+    if (!id) {
+      result.style.display = 'none';
+      alert('Please enter a certificate ID.');
+      return;
+    }
+
+    result.style.display = 'block';
+    result.className = 'result';
+    statusBadge.textContent = '⏳ Checking...';
+    statusBadge.className = 'badge';
+
+    try {
+      const q = query(collection(db, 'certificates'), where('certificateId', '==', id));
+      const snap = await getDocs(q);
+
+      if (snap.empty) {
+        result.className = 'result invalid';
+        statusBadge.textContent = '❌ Invalid Certificate';
+        statusBadge.className = 'badge invalid';
+        document.getElementById('resultTitle').textContent = 'Certificate Not Found';
+        document.getElementById('name').textContent = '—';
+        document.getElementById('course').textContent = '—';
+        document.getElementById('subject').textContent = '—';
+        document.getElementById('instructor').textContent = '—';
+        document.getElementById('date').textContent = '—';
+        document.getElementById('type').textContent = '—';
+        return;
+      }
+
+      const doc = snap.docs[0];
+      const data = doc.data();
+
+      result.className = 'result valid';
+      statusBadge.textContent = '✓ Verified';
+      statusBadge.className = 'badge valid';
+      document.getElementById('resultTitle').textContent = '✅ Certificate Verified';
+      document.getElementById('name').textContent = data.userName || 'N/A';
+      document.getElementById('course').textContent = data.courseTitle || 'N/A';
+      document.getElementById('subject').textContent = data.subject || 'N/A';
+      document.getElementById('instructor').textContent = data.instructor || 'N/A';
+      document.getElementById('date').textContent = data.issuedDate || 'N/A';
+      document.getElementById('type').textContent = data.certificateTypeName || 'N/A';
+
+    } catch (e) {
+      console.error(e);
+      result.className = 'result invalid';
+      statusBadge.textContent = '⚠️ Error';
+      statusBadge.className = 'badge invalid';
+      document.getElementById('resultTitle').textContent = 'Verification Error';
+    }
+  }
+
+  btn.addEventListener('click', verifyCertificate);
+  input.addEventListener('keydown', (e) => { if (e.key === 'Enter') verifyCertificate(); });
+
+  // Auto-verify if ID is in URL (e.g. ?id=EDV-2025-X7K9M2)
+  const params = new URLSearchParams(window.location.search);
+  const idParam = params.get('id');
+  if (idParam) {
+    input.value = idParam;
+    verifyCertificate();
+  }
+</script>
+
+</body>
+                                           </html>
